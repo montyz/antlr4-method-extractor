@@ -1,12 +1,14 @@
-Using ANTLR 4 and the Java7.g4 grammar on github I'll show you how to write a Java program to recursively walk through all .java files in a directory, parsing each one and then extracting the full method text for a few method names supplied to the tool.
+## Walkthrough of how I created this project
+Using ANTLR 4 and the Java7.g4 grammar on github this shows you how to write a Java program to recursively walk through all .java files in a directory, parsing each one and then extracting the full method text for a few method names supplied to the tool.
 
 ## Set up ANTLR & Grammar
-Download ANTLRWorks.  Get the Java7.g4 grammar from github and open it up in ANTLRWorks.  Look around and find the rule that handles method declarations.
+Download ANTLRWorks from http://tunnelvisionlabs.com/products/demo/antlrworks.I have a git reference to the grammars repo within this project.  Open up Java7.g4.  Look around and find the rule that handles method declarations.
 
 `methodDeclaration` is the name of the rule.  
 
 ## Generate Java Classes
-In ANTLRWorks, choose Run->Generate Recognizer.  In the wizard, pick a package name and a place to generate the files.  Also make sure you are generating the listener.  
+In ANTLRWorks, choose Run->Generate Recognizer.  In the wizard, pick a package name and a place to generate the files.  Also make sure you are generating the listener.  This creates all the Java7 files you can find in antlr4-method-extractor/src/com/codetransform/javatools/.
+
 
 ## Using the Listener
 Each rule has two listener methods declared, enter* and exit*.  Have a look at Java7BaseListener.java.  It has all of the enter and exit methods stubbed out.  We subclass, then extend enterMethodDeclaration() where we grab the method name out of the ctx object and see if it matches one of our passed in arguments.  If so, we get the text that this rule had matched using the token interval from ctx.start and ctx.stop.  We save the interval for printing out later.
