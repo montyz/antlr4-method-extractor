@@ -11,7 +11,7 @@ In ANTLRWorks, choose Run->Generate Recognizer.  In the wizard, pick a package n
 
 
 ## Using the Listener
-Each rule has two listener methods declared, enter* and exit*.  Have a look at Java7BaseListener.java.  It has all of the enter and exit methods stubbed out.  We subclass, then extend enterMethodDeclaration() where we grab the method name out of the ctx object and see if it matches one of our passed in arguments.  If so, we get the text that this rule had matched using the token interval from ctx.start and ctx.stop.  We save the interval for printing out later.
+Each rule has two listener methods declared, enter* and exit*.  Have a look at Java7BaseListener.java.  It has all of the enter and exit methods stubbed out.  I  subclassed it in MethodFinder, then extended enterMethodDeclaration(), where I grab the method name out of the ctx object and see if it matches one of our passed in arguments.  If it matches, I get the text that this rule had matched using the token interval from ctx.start and ctx.stop.  I save the interval for printing out later.
 
         @Override public void enterMethodDeclaration(Java7Parser.MethodDeclarationContext ctx) {
           TerminalNode identifier = ctx.Identifier();
@@ -27,7 +27,7 @@ Each rule has two listener methods declared, enter* and exit*.  Have a look at J
           }
         }
 
-After the walker has walked the whole file, we'll have a list of token intervals we want to print out.  By keeping around the ANTLR CharStream we can easily extract the text with the token interval we saved in the `intervals` list.
+After the walker has walked the whole file, I'll have a list of token intervals I want to print out.  By keeping around the ANTLR CharStream I can easily extract the text with the token interval I saved in the `intervals` list.
 
         private void writeOutputFile() {
           File outFile = new File(this.outputDir, this.currentJavaFile.getName());
