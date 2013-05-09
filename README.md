@@ -7,7 +7,7 @@ Download ANTLRWorks from http://tunnelvisionlabs.com/products/demo/antlrworks.I 
 `methodDeclaration` is the name of the rule.  
 
 ## Generate Java Classes
-In ANTLRWorks, choose Run->Generate Recognizer.  In the wizard, pick a package name and a place to generate the files.  Also make sure you are generating the listener.  This creates all the Java7 files you can find in src/com/codetransform/javatools/.
+In ANTLRWorks, choose Run->Generate Recognizer.  In the wizard, pick a package name and a place to generate the files.  Also make sure you are generating the listener.  This creates all the Java7*.java files you see in src/com/codetransform/javatools/.
 
 
 ## Using the Listener
