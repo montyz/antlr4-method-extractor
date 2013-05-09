@@ -47,3 +47,34 @@ After the walker has walked the whole file, I'll have a list of token intervals 
 
 The rest of the MethodFinder class has the generic code to walk a directory tree to find the .java files.  For each file it invokes the ANTLR parser and then invokes a ParseTreeWalker to walk the tree, calling our listener when appropriate.
 
+## Including annotations and comments
+
+One problem with the above code is that it doesn't include annotations or preceding comments.  I'd like to include those, so I added two more steps to getting the interval.  First, I look up parent contexts until I find the ClassBodyDeclarationContext.  That will include the annotations.  The parser itself doesn't know about whitespace or comments.  Those are tokens, but saved on a 'hidden' channel the parser never sees.  So I work backwards from the start token until I hit a non-hidden token.  That lets me include the preceding comments and whitespace.
+
+        @Override public void enterMethodDeclaration(Java7Parser.MethodDeclarationContext ctx) {
+          TerminalNode identifier = ctx.Identifier();
+          if (identifier!=null) {
+            for (String name:methodNamesToMatch) {
+              if (identifier.getText().equals(name)) {
+                ParserRuleContext parent = ctx.getParent();
+                //pop up parent contexts to get to classBodyDeclaration so we include annotations and modifiers
+                while (parent!=null && !(parent instanceof Java7Parser.ClassBodyDeclarationContext)) {
+                  parent = parent.getParent();
+                }
+                if (parent == null) {
+                  parent = ctx;
+                }
+                Token start = parent.start;
+                // work backwards in token stream to include all preceding whitespace and comments
+                int tokenIndex = start.getTokenIndex();
+                while (tokenIndex>0 && tokens.get(tokenIndex-1).getChannel()!=Token.DEFAULT_CHANNEL) {
+                  tokenIndex--;
+                }
+                int a = start.getStartIndex();
+                int b = ctx.stop.getStopIndex();
+                Interval interval = new Interval(a,b);
+                intervals.add(interval);
+              }
+            }
+          }
+        }
