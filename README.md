@@ -2,7 +2,7 @@
 At work, http://www.temboo.com, I wanted to compare just a few methods dealing with serialization from a handful of classes.  So I found a pre-existing grammar and made this little tool that extracts the methods you ask for.  It preserves annotations and preceding whitespace.
 
 ## Walkthrough of how I created this project
-Using ANTLR 4 and the Java7.g4 grammar on github this shows you how to write a Java program to recursively walk through all .java files in a directory, parsing each one and then extracting the full method text for a few method names supplied to the tool.
+Using ANTLR 4 and the Java7.g4 grammar on github I show you how to write a Java program to recursively walk through all .java files in a directory, parsing each one and then extracting the full method text for a few method names supplied to the tool.
 
 ## Set up ANTLR & Grammar
 Download ANTLRWorks from http://tunnelvisionlabs.com/products/demo/antlrworks.I have a git reference to the grammars repo within this project.  Open up Java7.g4.  Look around and find the rule that handles method declarations.
